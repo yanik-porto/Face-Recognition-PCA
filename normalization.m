@@ -15,7 +15,7 @@ Fb=[13 20 ;
     48 50 ];    
 
 Fb_prev = ones(5,2)*100;
-threshold = 0.01;
+threshold = 1;
 t=0;
 
 %% 2. Compute transformation     
@@ -24,18 +24,21 @@ while(max(max(abs(Fb_prev-Fb)))>threshold)
     for nth_stu=1:nbr_stu
         for nth_pic = 1:nbr_pic;
 
+            nth_img = (nth_stu-1)*nbr_pic+nth_pic;
             %import data of the predetermined location from the file
             str = [char(Lt(nth_stu,:)),'_', num2str(nth_pic), '.txt'];
-            fp(:,:,(nth_stu-1)*nbr_pic+nth_pic) = importdata(str); %Store in a matrix  
+            f(:,1:2,nth_img) = importdata(str); %Store in a matrix  
 
             %Compute the 6 unknowns using svd 
-            f = Fb;                 %set fi by Fbar
-            f(:,3) = ones(5,1);     %add col of 1s to add b to the equation
+            fp = Fb;                 %set fp by Fbar
+            f(:,3,nth_img) = ones(5,1);     %add col of 1s to add b to the equation
             %X = inv(f'*f)*f'*fp;    %Least square solution
-            X2 = f\fp(:,:,(nth_stu-1)*nbr_pic+nth_pic);              %Solution using SVD
+            X2(:,:,nth_img) = f(:,:,nth_img)\fp;              %Solution using SVD
             
             %%3. For every face image
-            Fprime(:,:,(nth_stu-1)*nbr_pic+nth_pic) = f * X2;  %Store aligned feature
+            %fpi = fp(:,:,(nth_stu-1)*nbr_pic+nth_pic);
+            %fpi(:,3) = ones(5,1); 
+            Fprime(:,:,nth_img) = f(:,:,nth_img) * X2(:,:,nth_img);  %Store aligned feature
 
         end
     end
