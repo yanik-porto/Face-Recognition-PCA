@@ -1,42 +1,33 @@
-clear all;
-close all;
-clc;
-%% 1. Set a PCA parameter Npca
+clear all
+close all
+clc
 
-%% 3. Get labels
-Lt = importdata('lessNames.txt');
-nbr_stu = size(Lt, 1);
+%% Normalize images
+fileName = 'namesHorizontal.txt';
+nbrPixPerPerson = 5;
+images = normImg64(fileName,nbrPixPerPerson);
 
-%% Create Training data matrix D
+nbr_train = 3;
+nbr_test = 2;
+nbr_pix = 5;
+saveImg64(fileName, images, nbr_train, nbr_test);
 
-for nth_stu = 1 : nbr_stu
-    for nth_pic = 1:3
-        picName = [char(Lt(nth_stu,:)), '_', num2str(nth_pic), '.jpg'];
+%% Create training data matrix
+fileName = 'namesHorizontal.txt';
+nbr_train = 3;
+[D, X, Itrain] = setTrainingData(fileName,nbr_train);
 
-        Img = imread(picName);
-        I(:,:,(nth_stu-1)*3+nth_pic) = double(rgb2gray(Img));
-        M = size(I, 1);
-        N = size(I, 2);
+%% Do PCA on training data matrix
+[EigVec, EigVal]=doPCA(D);
 
-        for i = 1 : M
-            X(1,(i*N-(N-1)):((i-1)*N+N),(nth_stu-1)*3+nth_pic) = I(i,:,(nth_stu-1)*3+nth_pic);
-            D((nth_stu-1)*3+nth_pic,(i*N-(N-1)):((i-1)*N+N)) = I(i,:,(nth_stu-1)*3+nth_pic);
-        end
-    end
+%% get the PCA transformation matrix Fining the k principal components
+[Phi] = findPrincipalComp(EigVec, EigVal, 0.95);
+
+%% Construct the feature vector
+for i=1:size(X,3)
+    F(:,:,i) = X(:,:,i) * Phi;
 end
 
-p = nbr_stu * 3;
-d = M * N;
-
-%% Do PCA on this matrix
-for i=1:p
-    D(i,:) = D(i,:) - sum(D(i,:))/d;
-end
-
-Eps = (1 / (p - 1)) * (D' * D);
-% [U,S,V] = svd(Eps);
-[EigVec,EigVal] = eig(Eps);
-
-
-
-
+%% Read test images
+nbr_test = 2;
+[Xtest, Itest] = readTestImages(fileName, nbr_test);
