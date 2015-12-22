@@ -27,7 +27,7 @@ for nth_stu=1:nbr_stu
                 
                 %Compute the inverse transform and retrieve cooresponding
                 %pxl
-                normPxl = abs(round(A\([j;i]-B)));                
+                normPxl = round(A\([j;i]-B)); %if error, abs have been removed               
                 y = normPxl(1);
                 x = normPxl(2);
                 

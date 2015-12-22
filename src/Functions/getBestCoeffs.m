@@ -3,10 +3,10 @@ function [coeffs] = getBestCoeffs(Names, nbr_stu, nbr_pix)
 nbr_img = nbr_stu * nbr_pix;
 %% 1. Initialize average locations
 Fb=[13 20 ;
-          50 20 ;
-          34 34 ;
-          16 50 ;
-          48 50 ];    
+    50 20 ;
+    34 34 ;
+    16 50 ;
+    48 50 ];    
 
 prev_Fb = ones(5,2)*100;    %Initialize with dumb value
 threshold = 1;              %give a threshold

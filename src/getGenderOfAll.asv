@@ -1,0 +1,17 @@
+%% classify test image
+for q=1:size(Xtest,3)
+    Xq = Xtest(:,:,q);
+    group(q)=whichGroup(indexG,X,Xq,3);
+end
+
+
+%% Display all females
+f=0;
+row=ceil(sum(group==1)/2);
+
+for i=1:size(group(q,1))
+    if(group(i)==1)
+        f=f+1;
+        subplot(row,2,f), imshow(Itest(:,:,i));
+    end
+end
