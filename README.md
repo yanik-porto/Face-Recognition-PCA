@@ -1,22 +1,22 @@
 #FACE RECOGNITION USING PCA
 
 	
-##NORMALIZE							
-1.	convertImagesTo64.m					
+##1. NORMALIZE							
+*	convertImagesTo64.m					
 								
 	Normalize images with the names corresponding to the student names	
 	in "namesHorizontal" and "namesVertical" (because some are 320*240 	
 	and some 240*320). The images of every student in the same text file	
 	must have the same size.  					
 
-##INITIALIZE
-2. 	initRecognition						
+##2. INITIALIZE
+* 	initRecognition						
 								
 	Read the training and test images, get the feature vectors from the 	
 	training images, and split the training images in groups of males and	
 	females.							
 
-##SHOW RESULTS
+##3. SHOW RESULTS
 *	findCorrFaceAndGender.m					
 								
 	Input the number of the image you want to test and it returns the 	
