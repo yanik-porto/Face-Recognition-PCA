@@ -5,8 +5,8 @@
 *	convertImagesTo64.m					
 								
 	Normalize images with the names corresponding to the student names	
-	in "namesHorizontal" and "namesVertical" (because some are 320*240 	
-	and some 240*320). The images of every student in the same text file	
+	in "namesHorizontal" and "namesVertical" (because some are 320 x 240 	
+	and some 240 x 320). The images of every student in the same text file	
 	must have the same size.  					
 
 ##2. INITIALIZE
